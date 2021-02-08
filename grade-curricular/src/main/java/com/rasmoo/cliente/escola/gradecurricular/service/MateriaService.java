@@ -1,8 +1,10 @@
 package com.rasmoo.cliente.escola.gradecurricular.service;
 
 import com.rasmoo.cliente.escola.gradecurricular.entity.MateriaEntity;
+import com.rasmoo.cliente.escola.gradecurricular.exception.MateriaException;
 import com.rasmoo.cliente.escola.gradecurricular.repository.IMateriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MateriaService implements  IMateriaService{
+public class MateriaService implements IMateriaService {
 
     @Autowired
     private IMateriaRepository materiaRepository;
@@ -18,20 +20,25 @@ public class MateriaService implements  IMateriaService{
     @Override
     public Boolean atualizar(MateriaEntity materia) {
         try {
-            // buscamos pela materia que gostaríamos de atualizar
-            MateriaEntity materiaEntityAtualizada = this.materiaRepository.findById(materia.getId()).get();
 
-            // atualizamos todos os valores
-            materiaEntityAtualizada.setNome(materia.getNome());
-            materiaEntityAtualizada.setCodigo(materia.getCodigo());
-            materiaEntityAtualizada.setNome(materia.getNome());
-            materiaEntityAtualizada.setFrequencia(materia.getFrequencia());
+            Optional<MateriaEntity> materiaOptional = this.materiaRepository.findById(materia.getId());
 
-            // salvamos as alteracoes
-            this.materiaRepository.save(materiaEntityAtualizada);
+            if (materiaOptional.isPresent()) {
 
-            return true;
+                MateriaEntity materiaEntityAtualizada = this.materiaRepository.findById(materia.getId()).get();
 
+                // atualizamos todos os valores
+                materiaEntityAtualizada.setNome(materia.getNome());
+                materiaEntityAtualizada.setCodigo(materia.getCodigo());
+                materiaEntityAtualizada.setNome(materia.getNome());
+                materiaEntityAtualizada.setFrequencia(materia.getFrequencia());
+
+                // salvamos as alteracoes
+                this.materiaRepository.save(materiaEntityAtualizada);
+
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             return false;
         }
@@ -54,9 +61,11 @@ public class MateriaService implements  IMateriaService{
             if (materiaOptional.isPresent()) {
                 return materiaOptional.get();
             }
-            return null;
-        } catch (Exception e) {
-            return null;
+            throw new MateriaException("Materia nao encontrada", HttpStatus.NOT_FOUND);
+        } catch (MateriaException e) {
+            throw e;
+        }catch (Exception e) {
+            throw new MateriaException("Ocorreu um erro interno", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
