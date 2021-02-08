@@ -35,7 +35,6 @@ public class MateriaEntity implements Serializable {
         this.id = id;
     }
 
-
     public Long getId() {
         return id;
     }

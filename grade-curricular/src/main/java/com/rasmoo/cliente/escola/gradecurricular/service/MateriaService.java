@@ -1,8 +1,10 @@
 package com.rasmoo.cliente.escola.gradecurricular.service;
 
+import com.rasmoo.cliente.escola.gradecurricular.dto.MaterialDTO;
 import com.rasmoo.cliente.escola.gradecurricular.entity.MateriaEntity;
 import com.rasmoo.cliente.escola.gradecurricular.exception.MateriaException;
 import com.rasmoo.cliente.escola.gradecurricular.repository.IMateriaRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,7 @@ public class MateriaService implements IMateriaService {
     private IMateriaRepository materiaRepository;
 
     @Override
-    public Boolean atualizar(MateriaEntity materia) {
+    public Boolean atualizar(MaterialDTO materia) {
         try {
 
             Optional<MateriaEntity> materiaOptional = this.materiaRepository.findById(materia.getId());
@@ -79,9 +81,12 @@ public class MateriaService implements IMateriaService {
     }
 
     @Override
-    public Boolean cadastrar(MateriaEntity materia) {
+    public Boolean cadastrar(MaterialDTO materialDTO) {
         try {
-            this.materiaRepository.save(materia);
+            ModelMapper mapper = new ModelMapper();
+            MateriaEntity materiaEntity =  mapper.map(materialDTO, MateriaEntity.class);
+
+            this.materiaRepository.save(materiaEntity);
             return true;
         } catch (Exception e) {
             return false;
