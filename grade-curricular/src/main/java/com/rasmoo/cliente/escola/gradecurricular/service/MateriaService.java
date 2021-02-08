@@ -1,11 +1,13 @@
 package com.rasmoo.cliente.escola.gradecurricular.service;
 
+import com.rasmoo.cliente.escola.gradecurricular.controller.MateriaController;
 import com.rasmoo.cliente.escola.gradecurricular.dto.MaterialDTO;
 import com.rasmoo.cliente.escola.gradecurricular.entity.MateriaEntity;
 import com.rasmoo.cliente.escola.gradecurricular.exception.MateriaException;
 import com.rasmoo.cliente.escola.gradecurricular.repository.IMateriaRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +18,12 @@ import java.util.Optional;
 @Service
 public class MateriaService implements IMateriaService {
 
-
+    @Autowired
     private IMateriaRepository materiaRepository;
 
     private ModelMapper mapper;
 
-    @Autowired
+
     public MateriaService(IMateriaRepository materiaRepository) {
         this.materiaRepository = materiaRepository;
     }
@@ -29,11 +31,12 @@ public class MateriaService implements IMateriaService {
     @Override
     public Boolean cadastrar(MaterialDTO materialDTO) {
         try {
-            MateriaEntity materiaEntity =  this.mapper.map(materialDTO, MateriaEntity.class);
-
+            ModelMapper mapper = new ModelMapper();
+            MateriaEntity materiaEntity = mapper.map(materialDTO, MateriaEntity.class);
             this.materiaRepository.save(materiaEntity);
             return Boolean.TRUE;
         } catch (Exception e) {
+            System.out.println(e);
             return false;
         }
     }
@@ -85,7 +88,7 @@ public class MateriaService implements IMateriaService {
             throw new MateriaException("Materia nao encontrada", HttpStatus.NOT_FOUND);
         } catch (MateriaException e) {
             throw e;
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new MateriaException("Ocorreu um erro interno", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -93,6 +96,13 @@ public class MateriaService implements IMateriaService {
     @Override
     public List<MateriaEntity> listar() {
         try {
+
+            List<MateriaEntity> materiaEntityList = this.materiaRepository.findAll();
+            materiaEntityList.forEach(materia -> {
+                materia.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(MateriaController.class).
+                        consultaMateria(materia.getId())).withSelfRel());
+            });
+
             return this.materiaRepository.findAll();
         } catch (Exception e) {
             return new ArrayList<>();
