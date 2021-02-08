@@ -16,8 +16,27 @@ import java.util.Optional;
 @Service
 public class MateriaService implements IMateriaService {
 
-    @Autowired
+
     private IMateriaRepository materiaRepository;
+
+    private ModelMapper mapper;
+
+    @Autowired
+    public MateriaService(IMateriaRepository materiaRepository) {
+        this.materiaRepository = materiaRepository;
+    }
+
+    @Override
+    public Boolean cadastrar(MaterialDTO materialDTO) {
+        try {
+            MateriaEntity materiaEntity =  this.mapper.map(materialDTO, MateriaEntity.class);
+
+            this.materiaRepository.save(materiaEntity);
+            return Boolean.TRUE;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     @Override
     public Boolean atualizar(MaterialDTO materia) {
@@ -80,16 +99,5 @@ public class MateriaService implements IMateriaService {
         }
     }
 
-    @Override
-    public Boolean cadastrar(MaterialDTO materialDTO) {
-        try {
-            ModelMapper mapper = new ModelMapper();
-            MateriaEntity materiaEntity =  mapper.map(materialDTO, MateriaEntity.class);
 
-            this.materiaRepository.save(materiaEntity);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
 }
