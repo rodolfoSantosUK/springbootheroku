@@ -6,6 +6,7 @@ import com.rasmoo.cliente.escola.gradecurricular.entity.MateriaEntity;
 import com.rasmoo.cliente.escola.gradecurricular.exception.MateriaException;
 import com.rasmoo.cliente.escola.gradecurricular.repository.IMateriaRepository;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -107,6 +108,18 @@ public class MateriaService implements IMateriaService {
         } catch (Exception e) {
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    public List<MaterialDTO> listarPorHorarioMinimo(int horaMinima) {
+        return this.mapper.map(this.materiaRepository.findByHoraMinima(horaMinima), new TypeToken<List<MaterialDTO>>() {
+        }.getType());
+    }
+
+    @Override
+    public List<MaterialDTO> listarPorFrequencia(int frequencia) {
+        return this.mapper.map(this.materiaRepository.findByFrequencia(frequencia), new TypeToken<List<MaterialDTO>>() {
+        }.getType());
     }
 
 
