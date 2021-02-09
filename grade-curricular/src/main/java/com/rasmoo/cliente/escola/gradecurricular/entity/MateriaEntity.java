@@ -27,18 +27,17 @@ public class MateriaEntity extends RepresentationModel<MateriaEntity> implements
     @Column(name = "id")
     private Long id;
 
-    @JsonInclude(Include.NON_NULL)
-    private String nome ;
+    @JsonInclude(Include.NON_EMPTY)
+    @Column(name = "nome")
+    private String nome;
 
+    @Column(name = "hrs")
+    private int horas;
+
+    @JsonInclude(Include.NON_EMPTY)
+    @Column(name = "cod")
     private String codigo;
 
-    private String frequencia;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "freq")
+    private int frequencia;
 }
