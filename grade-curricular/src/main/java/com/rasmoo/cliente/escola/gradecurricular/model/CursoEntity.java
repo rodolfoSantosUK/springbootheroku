@@ -1,14 +1,7 @@
 package com.rasmoo.cliente.escola.gradecurricular.model;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.rasmoo.cliente.escola.gradecurricular.entity.MateriaEntity;
 import org.hibernate.annotations.GenericGenerator;
@@ -42,7 +35,7 @@ public class CursoEntity implements Serializable{
     @Column(name = "cod")
     private String codigo;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name="materia_id")
     private List<MateriaEntity> materias;
 
