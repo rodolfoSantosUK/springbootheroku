@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @NoArgsConstructor
-public class MaterialDTO {
+public class MateriaDto {
 
     private Long id;
 

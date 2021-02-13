@@ -1,9 +1,8 @@
 package com.rasmoo.cliente.escola.gradecurricular.controller;
 
-import com.rasmoo.cliente.escola.gradecurricular.dto.MaterialDTO;
+import com.rasmoo.cliente.escola.gradecurricular.dto.MateriaDto;
 import com.rasmoo.cliente.escola.gradecurricular.entity.MateriaEntity;
 import com.rasmoo.cliente.escola.gradecurricular.model.Response;
-import com.rasmoo.cliente.escola.gradecurricular.repository.IMateriaRepository;
 import com.rasmoo.cliente.escola.gradecurricular.service.IMateriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -42,7 +41,7 @@ public class MateriaController {
     }
 
     @PostMapping
-    public ResponseEntity<Boolean> cadastrarMateria(@RequestBody @Valid MaterialDTO materia) {
+    public ResponseEntity<Boolean> cadastrarMateria(@RequestBody @Valid MateriaDto materia) {
         return ResponseEntity.status(HttpStatus.OK).body(this.materiaService.cadastrar(materia));
     }
 
@@ -54,16 +53,16 @@ public class MateriaController {
     }
 
     @PutMapping
-    public ResponseEntity<Boolean> atualizarMateria(@RequestBody MaterialDTO materia) {
+    public ResponseEntity<Boolean> atualizarMateria(@RequestBody MateriaDto materia) {
 
         return ResponseEntity.status(HttpStatus.OK).body(this.materiaService.atualizar(materia));
 
     }
 
     @GetMapping("/horario-minimo/{horaMinima}")
-    public ResponseEntity<Response<List<MaterialDTO>>> consultaMateriaPorHoraMinima(@PathVariable int horaMinima) {
-        Response<List<MaterialDTO>> response = new Response<>();
-        List<MaterialDTO> materia = this.materiaService.listarPorHorarioMinimo(horaMinima);
+    public ResponseEntity<Response<List<MateriaDto>>> consultaMateriaPorHoraMinima(@PathVariable int horaMinima) {
+        Response<List<MateriaDto>> response = new Response<>();
+        List<MateriaDto> materia = this.materiaService.listarPorHorarioMinimo(horaMinima);
         response.setData(materia);
         response.setStatusCode(HttpStatus.OK.value());
         response.add(WebMvcLinkBuilder
@@ -73,9 +72,9 @@ public class MateriaController {
     }
 
     @GetMapping("/frequencia/{frequencia}")
-    public ResponseEntity<Response<List<MaterialDTO>>> consultaMateriaPorFrequencia(@PathVariable int frequencia) {
-        Response<List<MaterialDTO>> response = new Response<>();
-        List<MaterialDTO> materia = this.materiaService.listarPorFrequencia(frequencia);
+    public ResponseEntity<Response<List<MateriaDto>>> consultaMateriaPorFrequencia(@PathVariable int frequencia) {
+        Response<List<MateriaDto>> response = new Response<>();
+        List<MateriaDto> materia = this.materiaService.listarPorFrequencia(frequencia);
         response.setData(materia);
         response.setStatusCode(HttpStatus.OK.value());
         response.add(WebMvcLinkBuilder

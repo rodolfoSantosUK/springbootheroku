@@ -1,12 +1,12 @@
 package com.rasmoo.cliente.escola.gradecurricular.service;
 
-import com.rasmoo.cliente.escola.gradecurricular.dto.MaterialDTO;
+import com.rasmoo.cliente.escola.gradecurricular.dto.MateriaDto;
 import com.rasmoo.cliente.escola.gradecurricular.entity.MateriaEntity;
 
 import java.util.List;
 
 public interface IMateriaService {
-    public Boolean atualizar(  MaterialDTO materia);
+    public Boolean atualizar(  MateriaDto materia);
 
     public Boolean excluir(final Long id);
 
@@ -23,9 +23,9 @@ public interface IMateriaService {
     /*
      * CADASTRAR uma matéria.
      */
-    public Boolean cadastrar(MaterialDTO materia);
+    public Boolean cadastrar(MateriaDto materia);
 
-    public List<MaterialDTO> listarPorHorarioMinimo(int horaMinima);
+    public List<MateriaDto> listarPorHorarioMinimo(int horaMinima);
 
-    public List<MaterialDTO> listarPorFrequencia(int frequencia);
+    public List<MateriaDto> listarPorFrequencia(int frequencia);
 }

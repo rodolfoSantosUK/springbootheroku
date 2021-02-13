@@ -1,4 +1,4 @@
-package com.rasmoo.cliente.escola.gradecurricular;
+package com.rasmoo.cliente.escola.gradecurricular.controller.test;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

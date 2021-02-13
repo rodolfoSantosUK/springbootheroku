@@ -1,7 +1,7 @@
 package com.rasmoo.cliente.escola.gradecurricular.service;
 
 import com.rasmoo.cliente.escola.gradecurricular.controller.MateriaController;
-import com.rasmoo.cliente.escola.gradecurricular.dto.MaterialDTO;
+import com.rasmoo.cliente.escola.gradecurricular.dto.MateriaDto;
 import com.rasmoo.cliente.escola.gradecurricular.entity.MateriaEntity;
 import com.rasmoo.cliente.escola.gradecurricular.exception.MateriaException;
 import com.rasmoo.cliente.escola.gradecurricular.repository.IMateriaRepository;
@@ -30,10 +30,10 @@ public class MateriaService implements IMateriaService {
     }
 
     @Override
-    public Boolean cadastrar(MaterialDTO materialDTO) {
+    public Boolean cadastrar(MateriaDto materiaDTO) {
         try {
             ModelMapper mapper = new ModelMapper();
-            MateriaEntity materiaEntity = mapper.map(materialDTO, MateriaEntity.class);
+            MateriaEntity materiaEntity = mapper.map(materiaDTO, MateriaEntity.class);
             this.materiaRepository.save(materiaEntity);
             return Boolean.TRUE;
         } catch (Exception e) {
@@ -43,7 +43,7 @@ public class MateriaService implements IMateriaService {
     }
 
     @Override
-    public Boolean atualizar(MaterialDTO materia) {
+    public Boolean atualizar(MateriaDto materia) {
         try {
 
             Optional<MateriaEntity> materiaOptional = this.materiaRepository.findById(materia.getId());
@@ -111,14 +111,14 @@ public class MateriaService implements IMateriaService {
     }
 
     @Override
-    public List<MaterialDTO> listarPorHorarioMinimo(int horaMinima) {
-        return this.mapper.map(this.materiaRepository.findByHoraMinima(horaMinima), new TypeToken<List<MaterialDTO>>() {
+    public List<MateriaDto> listarPorHorarioMinimo(int horaMinima) {
+        return this.mapper.map(this.materiaRepository.findByHoraMinima(horaMinima), new TypeToken<List<MateriaDto>>() {
         }.getType());
     }
 
     @Override
-    public List<MaterialDTO> listarPorFrequencia(int frequencia) {
-        return this.mapper.map(this.materiaRepository.findByFrequencia(frequencia), new TypeToken<List<MaterialDTO>>() {
+    public List<MateriaDto> listarPorFrequencia(int frequencia) {
+        return this.mapper.map(this.materiaRepository.findByFrequencia(frequencia), new TypeToken<List<MateriaDto>>() {
         }.getType());
     }
 
